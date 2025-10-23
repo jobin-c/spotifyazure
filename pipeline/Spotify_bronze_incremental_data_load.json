@@ -1,6 +1,94 @@
 {
 	"name": "Spotify_bronze_incremental_data_load",
 	"properties": {
+		"activities": [
+			{
+				"name": "CopydataSQLtoADLS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select * from @{pipeline().parameters.schema}.@{pipeline().parameters.tablename} where updated_at>@{pipeline().parameters.cdc_date}",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": {
+								"value": "@pipeline().parameters.schema",
+								"type": "Expression"
+							},
+							"Tablename": {
+								"value": "@pipeline().parameters.tablename",
+								"type": "Expression"
+							},
+							"cdc_date": {
+								"value": "@pipeline().parameters.cdc_date",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"schema": {
+				"type": "string"
+			},
+			"tablename": {
+				"type": "string"
+			},
+			"cdc_date": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
