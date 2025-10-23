@@ -25,13 +25,31 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from @{pipeline().parameters.schema}.@{pipeline().parameters.tablename} where updated_at>@{pipeline().parameters.cdc_date}",
+							"value": "select * from @{pipeline().parameters.schema}.@{pipeline().parameters.tablename} where updated_at>@{activity('Lookup1').output.value.cdc[0]}",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
@@ -45,9 +63,17 @@
 							"Tablename": {
 								"value": "@pipeline().parameters.tablename",
 								"type": "Expression"
-							},
-							"cdc_date": {
-								"value": "@activity('Lookup1').output.firstRow.cdc[0]",
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Parquet1",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@{pipeline().parameters.tablename}_utcNow()",
 								"type": "Expression"
 							}
 						}

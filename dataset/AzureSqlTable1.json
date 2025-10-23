@@ -11,9 +11,6 @@
 			},
 			"Tablename": {
 				"type": "string"
-			},
-			"cdc_date": {
-				"type": "string"
 			}
 		},
 		"annotations": [],
