@@ -1,0 +1,6 @@
+{
+	"name": "Spotify_bronze_incremental_data_load",
+	"properties": {
+		"annotations": []
+	}
+}
