@@ -1,0 +1,9 @@
+{
+	"name": "jcspotifyadf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a215ae7e-7f71-4629-b609-b19d80efd8b1",
+		"tenantId": "828dc501-d9cf-4add-bec5-3095edc9002a"
+	}
+}
