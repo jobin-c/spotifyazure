@@ -11,6 +11,9 @@
 			},
 			"cdc_file": {
 				"type": "string"
+			},
+			"cdc_date": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -18,14 +21,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@dataset().cdc_file",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@dataset().cdc_folder",
-					"type": "Expression"
-				},
+				"fileName": "cdc.json",
+				"folderPath": "CDC",
 				"fileSystem": "bronze"
 			}
 		},

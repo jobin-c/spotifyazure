@@ -5,7 +5,14 @@
 			{
 				"name": "CopydataSQLtoADLS",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -40,7 +47,7 @@
 								"type": "Expression"
 							},
 							"cdc_date": {
-								"value": "@pipeline().parameters.cdc_date",
+								"value": "@activity('Lookup1').output.firstRow.cdc[0]",
 								"type": "Expression"
 							}
 						}
@@ -73,7 +80,12 @@
 					},
 					"dataset": {
 						"referenceName": "Json1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"cdc_folder": "CDC",
+							"cdc_file": "cdc.json",
+							"cdc_date": "NA"
+						}
 					}
 				}
 			}
@@ -83,9 +95,6 @@
 				"type": "string"
 			},
 			"tablename": {
-				"type": "string"
-			},
-			"cdc_date": {
 				"type": "string"
 			}
 		},
