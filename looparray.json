@@ -12,7 +12,7 @@
 "fromtime" : ""
  },
  {
-"tablename" : "Dimtrack",
+"tablename" : "DimTrack",
 "tableschema" : "dbo",
 "cdc_column" : "updated_at",
 "fromtime": ""
@@ -24,7 +24,7 @@
 "fromtime" : ""
  },
  {
-"tablename" : "FactStream",
+"tablename" : "Factstream",
 "tableschema" : "dbo",
 "cdc_column" : "stream_timestamp",
 "fromtime" : ""
