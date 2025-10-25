@@ -12,7 +12,7 @@
 						"value": "@pipeline().parameters.looparray",
 						"type": "Expression"
 					},
-					"batchCount": 3,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "CopydataSQLtoADLS",
@@ -270,7 +270,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"cdc_folder": {
-														"value": "@{item().tablename}_cdc",
+														"value": "@{item().tablename}/@{item().tablename}_cdc",
 														"type": "Expression"
 													},
 													"cdc_file": "empty.json",
