@@ -1,0 +1,32 @@
+[
+ {
+"tablename" : "DimArtist",
+"tableschema" : "dbo",
+"cdc_column" : "updated_at",
+fromtime" : ""
+ },
+ {
+"tablename" : "DimUser",
+"tableschema" : "dbo",
+"cdc_column" : "updated_at",
+fromtime" : ""
+ },
+ {
+"tablename" : "Dimtrack",
+"tableschema" : "dbo",
+"cdc_column" : "updated_at",
+fromtime" : ""
+ },
+ {
+"tablename" : "DimDate",
+"tableschema" : "dbo",
+"cdc_column" : "updated_at",
+fromtime" : ""
+ },
+ {
+"tablename" : "FactStream",
+"tableschema" : "dbo",
+"cdc_column" : "updated_at",
+fromtime" : ""
+ }
+]
