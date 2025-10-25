@@ -20,13 +20,13 @@
  {
 "tablename" : "DimDate",
 "tableschema" : "dbo",
-"cdc_column" : "updated_at",
+"cdc_column" : "date",
 "fromtime" : ""
  },
  {
 "tablename" : "FactStream",
 "tableschema" : "dbo",
-"cdc_column" : "updated_at",
+"cdc_column" : "stream_timestamp",
 "fromtime" : ""
  }
 ]
