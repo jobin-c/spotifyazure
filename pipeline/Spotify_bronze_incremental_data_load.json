@@ -8,6 +8,11 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.looparray",
+						"type": "Expression"
+					},
+					"batchCount": 3,
 					"activities": [
 						{
 							"name": "CopydataSQLtoADLS",
@@ -188,7 +193,11 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"folder": {
-														"value": "@{pipeline().parameters.tablename}_@{variables('timevalue')}",
+														"value": "@item().tablename",
+														"type": "Expression"
+													},
+													"filename": {
+														"value": "@{item().tablename}_@{variables('timevalue')}",
 														"type": "Expression"
 													}
 												}
@@ -260,7 +269,10 @@
 												"referenceName": "Json1",
 												"type": "DatasetReference",
 												"parameters": {
-													"cdc_folder": "CDC",
+													"cdc_folder": {
+														"value": "@{item().tablename}_cdc",
+														"type": "Expression"
+													},
 													"cdc_file": "empty.json",
 													"cdc_date": "NA"
 												}
@@ -271,7 +283,10 @@
 												"referenceName": "Json1",
 												"type": "DatasetReference",
 												"parameters": {
-													"cdc_folder": "CDC",
+													"cdc_folder": {
+														"value": "@{item().tablename}_cdc",
+														"type": "Expression"
+													},
 													"cdc_file": "cdc.json",
 													"cdc_date": "NA"
 												}
@@ -299,7 +314,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "select max(@{pipeline().parameters.cdc_col}) as cdc from @{pipeline().parameters.schema}.@{pipeline().parameters.tablename}",
+														"value": "select max(@{item().cdc_column}) as cdc from @{item().tableschema}.@{item().tablename}",
 														"type": "Expression"
 													}
 												}
@@ -337,7 +352,7 @@
 					"method": "POST",
 					"url": "https://prod-24.northcentralus.logic.azure.com:443/workflows/602f595e9383402595e01233d96214d1/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=nrdScMrwt4Y6Cf1v_Ix472nQ_czbXe2iYsEyyNT7xEU",
 					"body": {
-						"value": "{\n    \"pipelinename\" : \"@{pipeline().Pipeline}\",\n    \"pipelinerunid\": \"@{pipeline().RunId}\"\n}",
+						"value": "{\n    \"pipelinename\" : \"@{pipeline().Pipeline}\",\n    \"pipelinerun\": \"@{pipeline().RunId}\"\n}",
 						"type": "Expression"
 					}
 				}
